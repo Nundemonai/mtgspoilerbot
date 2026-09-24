@@ -28,19 +28,18 @@ async def on_message(message):
         return
     mes_channels = message.channel.name
 
-    commands = message.content.startswith(f"{COMMAND}")
-
-    if mes_channels == SPECIFIC_CHANNEL:
-        if commands:
+    if message.content.startswith(f"{COMMAND}"):
+        if mes_channels == SPECIFIC_CHANNEL:
+    
         
             roles = message.author.roles
             role_names = [role.name for role in roles]
             if ELIGIBILITY in role_names:
                 await card_collector(message)
-            else:
-                await message.channel.send("You don't have the permission to use this command.")
-    elif not mes_channels and commands:
-        await message.channel.send(f"You can only use this command in {SPECIFIC_CHANNEL} channel.")
+        else:
+            await message.channel.send(f"You can only use this command in {SPECIFIC_CHANNEL} channel.")
+    else:
+        await message.channel.send("You don't have the permission to use this command.")
 
 @client.event
 async def on_raw_thread_delete(payload):
