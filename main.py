@@ -27,11 +27,11 @@ async def on_message(message):
     if message.author == client.user:
         return
     mes_channels = message.channel.name
-                
-    if message.content.startswith("!hi"):
-        await message.channel.send("hello!")
+
+    commands = message.content.startswith(f"{COMMAND}")
+
     if mes_channels == SPECIFIC_CHANNEL:
-        if message.content.startswith(f"{COMMAND}"):
+        if commands:
         
             roles = message.author.roles
             role_names = [role.name for role in roles]
@@ -39,7 +39,7 @@ async def on_message(message):
                 await card_collector(message)
             else:
                 await message.channel.send("You don't have the permission to use this command.")
-    else:
+    elif not mes_channels and commands:
         await message.channel.send(f"You can only use this command in {SPECIFIC_CHANNEL} channel.")
 
 @client.event
